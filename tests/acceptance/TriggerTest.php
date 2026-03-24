@@ -31,9 +31,9 @@ class TriggerTest extends TestCase
         self::assertNotNull($this->pusher, 'Created new \Pusher\Pusher object');
     }
 
-    public function testStringPush(): void
+    public function testEventPush(): void
     {
-        $result = $this->pusher->trigger('test_channel', 'my_event', 'Test string');
+        $result = $this->pusher->trigger('test_channel', 'my_event', ['message' => 'Test string']);
         self::assertEquals(new stdClass(), $result);
     }
 

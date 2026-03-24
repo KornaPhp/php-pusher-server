@@ -35,18 +35,17 @@ class MiddlewareTest extends TestCase
             PUSHERAPP_AUTHKEY, PUSHERAPP_SECRET and
             PUSHERAPP_APPID keys.');
         } else {
-            $stack = new HandlerStack();
-            $stack->setHandler(new CurlHandler());
+            $stack = HandlerStack::create(new CurlHandler());
             $stack->push($this->increment());
             $client = new Client(['handler' => $stack]);
             $this->pusher = new Pusher(PUSHERAPP_AUTHKEY, PUSHERAPP_SECRET, PUSHERAPP_APPID, ['cluster' => PUSHERAPP_CLUSTER], $client);
         }
     }
 
-    public function testStringPush(): void
+    public function testEventPush(): void
     {
         self::assertEquals(0, $this->count);
-        $result = $this->pusher->trigger('test_channel', 'my_event', 'Test string');
+        $result = $this->pusher->trigger('test_channel', 'my_event', ['message' => 'Test string']);
         self::assertEquals(1, $this->count);
     }
 }

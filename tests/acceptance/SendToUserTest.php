@@ -32,13 +32,13 @@ class SendToUserTest extends TestCase
 
     public function testSendToUser(): void
     {
-        $result = $this->pusher->sendToUser('123', 'my_event', 'Test string');
+        $result = $this->pusher->sendToUser('123', 'my_event', ['message' => 'Test string']);
         self::assertEquals(new stdClass(), $result);
     }
 
     public function testSendToUserAsync(): void
     {
-        $result = $this->pusher->sendToUserAsync('123', 'my_event', 'Test string')->wait();
+        $result = $this->pusher->sendToUserAsync('123', 'my_event', ['message' => 'Test string'])->wait();
         self::assertEquals(new stdClass(), $result);
     }
 
