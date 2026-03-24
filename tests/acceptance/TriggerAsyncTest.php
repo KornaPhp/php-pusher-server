@@ -29,9 +29,9 @@ class TriggerAsyncTest extends TestCase
         self::assertNotNull($this->pusher, 'Created new \Pusher\Pusher object');
     }
 
-    public function testStringPush(): void
+    public function testEventPush(): void
     {
-        $result = $this->pusher->triggerAsync('test_channel', 'my_event', 'Test string')->wait();
+        $result = $this->pusher->triggerAsync('test_channel', 'my_event', ['message' => 'Test string'])->wait();
         self::assertEquals(new stdClass(), $result);
     }
 

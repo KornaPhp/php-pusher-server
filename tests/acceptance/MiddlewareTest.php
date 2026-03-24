@@ -43,10 +43,10 @@ class MiddlewareTest extends TestCase
         }
     }
 
-    public function testStringPush(): void
+    public function testEventPush(): void
     {
         self::assertEquals(0, $this->count);
-        $result = $this->pusher->trigger('test_channel', 'my_event', 'Test string');
+        $result = $this->pusher->trigger('test_channel', 'my_event', ['message' => 'Test string']);
         self::assertEquals(1, $this->count);
     }
 }
