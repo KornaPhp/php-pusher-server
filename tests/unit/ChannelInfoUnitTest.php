@@ -2,8 +2,11 @@
 
 namespace unit;
 
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Response;
 use PHPUnit\Framework\TestCase;
 use Pusher\Pusher;
+use stdClass;
 
 class ChannelInfoUnitTest extends TestCase
 {
@@ -43,5 +46,27 @@ class ChannelInfoUnitTest extends TestCase
         $this->expectException(\Pusher\PusherException::class);
 
         $this->pusher->get_channel_info('test_channel\n:');
+    }
+
+    public function testGetChannelInfoUsesClientInterfaceRequest(): void
+    {
+        $httpClient = $this->createMock(ClientInterface::class);
+
+        $httpClient->expects(self::once())
+            ->method('request')
+            ->with(
+                'GET',
+                'apps/appid/channels/test_channel',
+                self::callback(function (array $options): bool {
+                    return $options['http_errors'] === false
+                        && $options['base_uri'] === 'https://api-test1.pusher.com:443'
+                        && $options['headers']['Content-Type'] === 'application/json';
+                })
+            )
+            ->willReturn(new Response(200, [], '{}'));
+
+        $pusher = new Pusher('auth-key', 'secret', 'appid', ['cluster' => 'test1'], $httpClient);
+
+        self::assertEquals(new stdClass(), $pusher->getChannelInfo('test_channel'));
     }
 }
