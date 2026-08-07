@@ -1,5 +1,11 @@
 # Changelog
 
+## 7.3.0
+
+* [Added] Support for Guzzle 8 (#406, thanks @GrahamCampbell)
+* [Changed] Raise minimum Guzzle to 7.8.2 and require psr7 ^2.6.3 or ^3.0 and promises ^2.0.3 or ^3.0, dropping support for psr7 v1 and promises v1 (#406)
+* [Fixed] Correct typed property syntax for PHP 7.3 compatibility in WebhookTest (#405)
+
 ## 7.2.8
 
 * [Fixed] Fix PSR-3 logger context type in webhook error handling (null → [])
